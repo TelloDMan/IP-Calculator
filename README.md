@@ -3,6 +3,10 @@ A simple IP Calculator "Subnets,CIDR,Range,Network ID"
 
 ONLY IPCAL WORKING
 ============
+## Intsall Tkinter using pip
+```
+pip install tk
+```
 Input Format: ""IP/Subnet"
 
 Example:
