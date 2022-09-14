@@ -1,6 +1,13 @@
 from itertools import permutations
 import re
 
+def ip_to_bits(x):
+  binary = ""
+  x = x.split(".")
+  for i in x:
+    binary+=str(reportbin(int(i)))
+  return binary
+
 
 def bits_to_ip(x):
     if len(x) != 32:
@@ -12,21 +19,44 @@ def bits_to_ip(x):
         return ip   
 
 
+def reportbin(d):
+  integar = str(bin(int(d))).replace("0b", "")
+  if len(integar) < 8:
+    add= (8-len(integar))*"0"
+    add+= integar
+    return add
+  return integar
+
+
 def get_dec(x):
+    # conevrts to decimal
     return str(int("0b"+str(int(x)), 2))
 
 
-def subnet(string):
+def subnett(string):
     # subnetting
     network_id , new_cidr = string.split("/")
+    network_id = ip_to_bits(network_id)
     all = []
     all_sub_net = []
     subnets = {}
     j = 0
-    ip = list("0"*(abs(len(network_id)-int(new_cidr))))
+    network_bits =network_id[0:32-abs(len(network_id)-int(new_cidr))]
+    print(network_bits)
+    counter = 0
+    for num in network_bits:
+      if num == "0":
+        counter+=1
+      elif num == "1":
+        counter = 0
+    print(counter)
+    ip_subnet_range = network_bits[:int(new_cidr)-counter]
+
+    ip = list("0"*counter)
+  
     for i in range(len(ip)+1):
         x = sorted(set(list(permutations(ip))))
-        all += [network_id+"".join(i) for i in x]
+        all += [ip_subnet_range+"".join(i) for i in x]
         ip.pop()
         ip.insert(0, "1")
     print("Subnet ips:", len(all))
