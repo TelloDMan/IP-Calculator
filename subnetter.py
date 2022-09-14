@@ -16,8 +16,9 @@ def get_dec(x):
     return str(int("0b"+str(int(x)), 2))
 
 
-def subnet(network_id, new_cidr):
+def subnet(string):
     # subnetting
+    network_id , new_cidr = string.split("/")
     all = []
     all_sub_net = []
     subnets = {}

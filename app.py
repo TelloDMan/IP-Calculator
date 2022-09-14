@@ -5,7 +5,10 @@ string = ""
 
 root = Tk()
 root.title("Menu")
-root.iconbitmap("C:/Users/yerva/Desktop/tello.ico")
+try:
+    root.iconbitmap("C:/Users/yerva/Desktop/tello.ico")
+except:
+    pass
 
 positionRight = int(root.winfo_screenwidth()/2 - 500/2)
 positionDown = int(root.winfo_screenheight()/2 - 300/2)
@@ -17,7 +20,7 @@ def ip():
     root.destroy()
     main1 = Tk()
     main1.title("IP Calculator")
-    main1.iconbitmap("C:/Users/yerva/Desktop/tello.ico")
+    #main1.iconbitmap("C:/Users/yerva/Desktop/tello.ico")
     windowwidth = main1.winfo_reqwidth()
     windowheight = main1.winfo_reqheight()
     positionright = int(main1.winfo_screenwidth()/2 - windowwidth/1.5)
@@ -123,7 +126,7 @@ def subnet():
             e.insert(END, x)
             e.configure(state="disabled")
         elif x == "c":
-            xx = Label(main2, text=ipcal(string))
+            xx = Label(main2, text=subnett(string))
             xx.grid(row=8, column=0, columnspan=4)
         elif x == "d":
             e.configure(state="normal")
