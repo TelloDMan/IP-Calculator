@@ -1,34 +1,55 @@
 from ipcal import *
+import tkinter as tk
 from tkinter import *
 from subnetter import *
-string = ""
+from tkinter import ttk
+from haylla import *
+from prefix import *
 
-root = Tk()
-root.title("Menu")
-try:
-    root.iconbitmap("C:/Users/yerva/Desktop/tello.ico")
-except:
-    pass
 
-positionRight = int(root.winfo_screenwidth()/2 - 500/2)
-positionDown = int(root.winfo_screenheight()/2 - 300/2)
 
-root.geometry("500x300+{}+{}".format(positionRight, positionDown))
+
+
+
+#root.title("Menu")
+#try:
+#    root.iconbitmap("C:/Users/yerva/Desktop/tello.ico")
+#except:
+#    pass
+
+#positionRight = int(root.winfo_screenwidth()/2 - 500/2)
+#positionDown = int(root.winfo_screenheight()/2 - 300/2)
+
+#root.geometry("500x300+{}+{}".format(positionRight, positionDown))
+
+
 
 
 def ip():
-    root.destroy()
-    main1 = Tk()
-    main1.title("IP Calculator")
-    #main1.iconbitmap("C:/Users/yerva/Desktop/tello.ico")
-    windowwidth = main1.winfo_reqwidth()
-    windowheight = main1.winfo_reqheight()
-    positionright = int(main1.winfo_screenwidth()/2 - windowwidth/1.5)
-    positiondown = int(main1.winfo_screenheight()/2 - windowheight/1.2)
-    main1.geometry("+{}+{}".format(positionright, positiondown))
+    root.close()
+   
+    try: 
+        main1.deiconify()
+
+    except:
+        main1 = Tk()
+        main1.title("IP Calculator")
+        #main1.iconbitmap("C:/Users/yerva/Desktop/tello.ico")
+        windowwidth = main1.winfo_reqwidth()
+        windowheight = main1.winfo_reqheight()
+        positionright = int(main1.winfo_screenwidth()/2 - windowwidth/1.5)
+        positiondown = int(main1.winfo_screenheight()/2 - windowheight/1.2)
+        main1.geometry("+{}+{}".format(positionright, positiondown))
     
     e = Entry(main1, width=40, justify="center")
     e.configure(state="disabled")
+
+
+    def exiting():
+        main1.withdraw()
+        root.repair()
+        pass
+
 
     def click(x):
         global string
@@ -95,23 +116,37 @@ def ip():
 
     button_calculate.grid(row=6, column=1, columnspan=2)
     button_remove.grid(row=6, column=3)
-    
+   
+    main1.protocol("WM_DELETE_WINDOW", exiting)
+
     main1.mainloop()
 
 
 def subnet():
-    root.destroy()
-    main2 = Tk()
-    main2.title("IP Calculator")
+    root.close()
 
-    windowwidth = main2.winfo_reqwidth()
-    windowheight = main2.winfo_reqheight()
-    positionright = int(main2.winfo_screenwidth() / 2 - windowwidth / 1.5)
-    positiondown = int(main2.winfo_screenheight() / 2 - windowheight / 1.2)
-    main2.geometry("+{}+{}".format(positionright, positiondown))
+    try: 
+        main2.deiconify()
+    except:
+        main2 = Tk()
+        main2.title("IP Calculator")
 
+        windowwidth = main2.winfo_reqwidth()
+        windowheight = main2.winfo_reqheight()
+        positionright = int(main2.winfo_screenwidth() / 2 - windowwidth / 1.5)
+        positiondown = int(main2.winfo_screenheight() / 2 - windowheight / 1.2)
+        main2.geometry("+{}+{}".format(positionright, positiondown))
+    ###
+
+    ###
     e = Entry(main2, width=40, justify="center")
     e.configure(state="disabled")
+    
+
+    def exiting():
+        main2.withdraw()
+        root.repair()
+        pass
 
     def click(x):
         global string
@@ -126,8 +161,11 @@ def subnet():
             e.insert(END, x)
             e.configure(state="disabled")
         elif x == "c":
-            xx = Label(main2, text=subnett(string))
-            xx.grid(row=8, column=0, columnspan=4)
+            main2.destroy()
+            newpre = popupwin()
+            appsub(subnett(string,newpre))
+            #xx = Label(main2, text=subnett(string))
+            #xx.grid(row=8, column=0, columnspan=4)
         elif x == "d":
             e.configure(state="normal")
             e.delete(len(e.get()) - 1, END)
@@ -174,12 +212,46 @@ def subnet():
     button_calculate.grid(row=6, column=1, columnspan=2)
     button_remove.grid(row=6, column=3)
 
+    main2.protocol("WM_DELETE_WINDOW", exiting)
+
     main2.mainloop()
 
 
-button1 = Button(root, text="ip", command=ip, padx="83", pady="10")
-button1.place(relx=0.5, rely=0.3, anchor=CENTER)
-button2 = Button(root, text="subnet", command=subnet, padx="70", pady="10")
-button2.place(relx=0.5, rely=0.5, anchor=CENTER)
+ 
+class App(tk.Tk):
+
+    def __init__(self):
+        super().__init__()
+
+        self.title('Menu')
+        self.positionRight = int(self.winfo_screenwidth()/2 - 500/2)
+        self.positionDown = int(self.winfo_screenheight()/2 - 300/2)
+        self.geometry("500x300+{}+{}".format(self.positionRight, self.positionDown))
+        
+        self.stringg = ""
+
+        self.button1 = Button(self, text="ip", command=ip, padx="83", pady="10")
+        self.button1.place(relx=0.5, rely=0.3, anchor=CENTER)
+        self.button2 = Button(self, text="subnet", command=subnet, padx="70", pady="10")
+        self.button2.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+    def close(self):
+        self.withdraw()
+
+    def repair(self):
+        self.deiconify()
+
+    def add(text):
+        self.stringg += text
+
+    def clear()
+        self.stringg = ""    
+        
+
+
+
+root = App()
+
+string = root.stringg
 
 root.mainloop()
