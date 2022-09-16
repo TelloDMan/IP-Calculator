@@ -8,71 +8,53 @@ from prefix import *
 
 
 
+def ip(root):
+    #root.close()
+    root.destroy()
+    char = Text()
 
-
-
-#root.title("Menu")
-#try:
-#    root.iconbitmap("C:/Users/yerva/Desktop/tello.ico")
-#except:
-#    pass
-
-#positionRight = int(root.winfo_screenwidth()/2 - 500/2)
-#positionDown = int(root.winfo_screenheight()/2 - 300/2)
-
-#root.geometry("500x300+{}+{}".format(positionRight, positionDown))
-
-
-
-
-def ip():
-    root.close()
-   
-    try: 
-        main1.deiconify()
-
-    except:
-        main1 = Tk()
-        main1.title("IP Calculator")
-        #main1.iconbitmap("C:/Users/yerva/Desktop/tello.ico")
-        windowwidth = main1.winfo_reqwidth()
-        windowheight = main1.winfo_reqheight()
-        positionright = int(main1.winfo_screenwidth()/2 - windowwidth/1.5)
-        positiondown = int(main1.winfo_screenheight()/2 - windowheight/1.2)
-        main1.geometry("+{}+{}".format(positionright, positiondown))
+    main1 = Tk()
+    main1.title("IP Calculator")
+    #main1.iconbitmap("C:/Users/yerva/Desktop/tello.ico")
+    windowwidth = main1.winfo_reqwidth()
+    windowheight = main1.winfo_reqheight()
+    positionright = int(main1.winfo_screenwidth()/2 - windowwidth/1.5)
+    positiondown = int(main1.winfo_screenheight()/2 - windowheight/1.2)
+    main1.geometry("+{}+{}".format(positionright, positiondown))
     
     e = Entry(main1, width=40, justify="center")
     e.configure(state="disabled")
 
 
     def exiting():
-        main1.withdraw()
-        root.repair()
-        pass
+        main1.destroy()
+        root.reopen()
 
 
     def click(x):
-        global string
+        #global string
         if x == "/":
-            string += str(x)
+            #string += str(x)
+            char.add(x)
             e.configure(state="normal")
             e.insert(END, x)
             e.configure(state="disabled")
         elif x == ".":
-            string += str(x)
+            #string += str(x)
+            char.add(x)
             e.configure(state="normal")
             e.insert(END, x)
             e.configure(state="disabled")
         elif x == "c":
-            xx = Label(main1, text=ipcal(string))
+            xx = Label(main1, text=ipcal(char.get_ip()))
             xx.grid(row=8, column=0, columnspan=4)
         elif x == "d":
             e.configure(state="normal")
             e.delete(len(e.get())-1, END)
-            string = string[:-1]
+            char.back()
             e.configure(state="disabled")
         else:
-            string += str(x)
+            char.add(x)
             e.configure(state="normal")
             e.insert(END, str(x))
             e.configure(state="disabled")
@@ -122,20 +104,19 @@ def ip():
     main1.mainloop()
 
 
-def subnet():
-    root.close()
+def subnet(root):
+    root.destroy()
+    char = Text()
 
-    try: 
-        main2.deiconify()
-    except:
-        main2 = Tk()
-        main2.title("IP Calculator")
+    main2 = Tk()
+    main2.title("IP Calculator")
 
-        windowwidth = main2.winfo_reqwidth()
-        windowheight = main2.winfo_reqheight()
-        positionright = int(main2.winfo_screenwidth() / 2 - windowwidth / 1.5)
-        positiondown = int(main2.winfo_screenheight() / 2 - windowheight / 1.2)
-        main2.geometry("+{}+{}".format(positionright, positiondown))
+    windowwidth = main2.winfo_reqwidth()
+    windowheight = main2.winfo_reqheight()
+    positionright = int(main2.winfo_screenwidth() / 2 - windowwidth / 1.5)
+    positiondown = int(main2.winfo_screenheight() / 2 - windowheight / 1.2)
+    main2.geometry("+{}+{}".format(positionright, positiondown))
+
     ###
 
     ###
@@ -144,35 +125,35 @@ def subnet():
     
 
     def exiting():
-        main2.withdraw()
-        root.repair()
-        pass
+        main2.destroy()
+        root.reopen()
+        
 
     def click(x):
-        global string
+
         if x == "/":
-            string += str(x)
+            char.add(x)
             e.configure(state="normal")
             e.insert(END, x)
             e.configure(state="disabled")
         elif x == ".":
-            string += str(x)
+            char.add(x)
             e.configure(state="normal")
             e.insert(END, x)
             e.configure(state="disabled")
         elif x == "c":
             main2.destroy()
             newpre = popupwin()
-            appsub(subnett(string,newpre))
+            appsub(subnett(char.get_ip(),newpre),root)
             #xx = Label(main2, text=subnett(string))
             #xx.grid(row=8, column=0, columnspan=4)
         elif x == "d":
             e.configure(state="normal")
             e.delete(len(e.get()) - 1, END)
-            string = string[:-1]
+            char.back()
             e.configure(state="disabled")
         else:
-            string += str(x)
+            char.add(x)
             e.configure(state="normal")
             e.insert(END, str(x))
             e.configure(state="disabled")
@@ -227,31 +208,43 @@ class App(tk.Tk):
         self.positionRight = int(self.winfo_screenwidth()/2 - 500/2)
         self.positionDown = int(self.winfo_screenheight()/2 - 300/2)
         self.geometry("500x300+{}+{}".format(self.positionRight, self.positionDown))
-        
-        self.stringg = ""
 
-        self.button1 = Button(self, text="ip", command=ip, padx="83", pady="10")
+        self.button1 = Button(self, text="ip", command=lambda :ip(self), padx="83", pady="10")
         self.button1.place(relx=0.5, rely=0.3, anchor=CENTER)
-        self.button2 = Button(self, text="subnet", command=subnet, padx="70", pady="10")
+        self.button2 = Button(self, text="subnet", command=lambda :subnet(self), padx="70", pady="10")
         self.button2.place(relx=0.5, rely=0.5, anchor=CENTER)
 
+        self.mainloop()
     def close(self):
         self.withdraw()
 
     def repair(self):
         self.deiconify()
 
-    def add(text):
-        self.stringg += text
-
-    def clear()
-        self.stringg = ""    
-        
+    def reopen(self):
+        self = App()
 
 
+class Text():
+
+    def __init__(self):
+        self.stringg = "" 
+
+    def add(self,text):
+        self.stringg += str(text)
+
+    def back(self):
+        self.stringg = self.stringg[:-1]
+
+    def clear(self):
+        self.stringg = ""  
+
+    def get_ip(self):
+        return self.stringg
+
+
+      
 
 root = App()
 
-string = root.stringg
 
-root.mainloop()
