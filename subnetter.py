@@ -77,7 +77,7 @@ def subnett(string,newprefix):
         info1 = "\n\nNetwork ID:"+ str(bits_to_ip(ipaddress))+"/"+new_cidr
         info2 = "Broadcast Address:"+ str(bits_to_ip(ipaddress+"1"*(32-len(ipaddress))))
         info3 = "IP Range:"+ str(subnets[str(bits_to_ip(ipaddress))])
-        info4 = "Host:"+str((2**(32-int(new_cidr)))-2)
+        info4 = "Host:"+str((2**(32-int(newprefix)))-2)
         info = str(all.index(ipaddress)+1)+info1+"\n"+info2+"\n"+info3+"\n"+info4+"\n\n\n"
         text.append(info)
     
