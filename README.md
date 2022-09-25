@@ -1,7 +1,7 @@
 # IP-Calculator
 A simple IP Calculator "Subnets,CIDR,Range,Network ID"
 
-ONLY IPCAL WORKING
+IPCAL(python script)
 ============
 ## 1. Intsall Tkinter using pip
 ```
